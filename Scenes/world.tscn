@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdho6d0qjcq8k"]
+
+[ext_resource type="Texture2D" uid="uid://cppx180wh2ila" path="res://Assets/snow_02_2k.blend/textures/snow_02_rough_2k.jpg" id="1_go701"]
+[ext_resource type="PackedScene" uid="uid://chwjjuytmwin7" path="res://Scenes/player.tscn" id="2_5a7ea"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dlwip"]
+albedo_texture = ExtResource("1_go701")
+uv1_scale = Vector3(2.005, 2.005, 2.005)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_go701"]
+size = Vector3(75, 1, 75)
+
+[node name="World" type="Node3D"]
+
+[node name="Floor" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_dlwip")
+size = Vector3(75, 0, 75)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_go701")
+
+[node name="Player" parent="." instance=ExtResource("2_5a7ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.27508, 2.5534334, -0.79269266)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9985499, 0.0061288164, 0.053484824, -0.053834826, 0.11367974, 0.99205786, 0, -0.99349856, 0.11384483, 0, 27.025621, 0)
