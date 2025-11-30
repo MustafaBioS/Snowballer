@@ -15,5 +15,16 @@ mesh = SubResource("CapsuleMesh_j47wa")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_f60y1")
 
-[node name="Camera" type="Camera3D" parent="."]
+[node name="Neck" type="Node3D" parent="."]
+
+[node name="Camera" type="Camera3D" parent="Neck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38863915, -0.104723096)
+
+[node name="Point" type="Marker3D" parent="Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41, -0.46636087, -0.8257231)
+
+[node name="ThrowTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="ThrowTimer" to="." method="_on_throw_timer_timeout"]

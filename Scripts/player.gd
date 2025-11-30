@@ -1,10 +1,17 @@
 extends CharacterBody3D
 
-@onready var camera = $Camera
+@onready var camera = $Neck/Camera
+const snowball = preload("uid://d03emu2pc1hmg")
+@onready var throwTimer = $ThrowTimer
+@onready var neck = $Neck
+@onready var point = $Neck/Point
 
 const SPEED = 10.0
 const JUMP_VELOCITY = 6.0
 var sensitivity = 0.003
+var canThrow = true
+var hp = 100
+
 
 func player():
 	pass
@@ -15,6 +22,7 @@ func _ready() -> void:
 func _process(float) -> void:
 	if Input.is_action_just_pressed("esc"):
 		get_tree().quit()
+	print(hp)
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -40,3 +48,24 @@ func _unhandled_input(event):
 		rotate_y(-event.relative.x * sensitivity)
 		camera.rotate_x(-event.relative.y * sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-60), deg_to_rad(70))
+	if Input.is_action_just_pressed("throw") && canThrow == true:
+		throw()
+
+func throw():
+	print('clicked')
+	canThrow = false
+	throwTimer.start()
+	var snowballIns = snowball.instantiate()
+	snowballIns.position = point.global_position
+	get_tree().current_scene.add_child(snowballIns)
+	
+	var force = -18
+	var upDir = 3.5
+	
+	var playerRotation = neck.global_transform.basis.z.normalized()
+	
+	snowballIns.apply_central_impulse(playerRotation * force + Vector3(0, upDir, 0))
+
+
+func _on_throw_timer_timeout() -> void:
+	canThrow = true
