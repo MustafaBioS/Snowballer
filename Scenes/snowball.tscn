@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://d03emu2pc1hmg"]
+
+[ext_resource type="PackedScene" uid="uid://08te28n11adn" path="res://Assets/snowball_-_low_resources.glb" id="1_f1lc2"]
+[ext_resource type="Script" uid="uid://cdfo7ixxng21" path="res://Scripts/snowball.gd" id="1_ispdo"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f1lc2"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ispdo"]
+radius = 0.45722055
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rj4rc"]
+
+[node name="Snowball" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_f1lc2")
+continuous_cd = true
+script = ExtResource("1_ispdo")
+
+[node name="Snow" parent="." instance=ExtResource("1_f1lc2")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008505076, 0.46430564, 0)
+shape = SubResource("SphereShape3D_ispdo")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45834947, 0)
+shape = SubResource("SphereShape3D_rj4rc")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
